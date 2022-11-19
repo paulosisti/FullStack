@@ -16,3 +16,10 @@ model Products {
   price Int
   model String
 }
+
+model Users {
+  id       Int    @id @default(autoincrement())
+  name     String @unique
+  email    String @unique
+  password String
+}

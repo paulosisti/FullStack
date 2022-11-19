@@ -1,10 +1,23 @@
 /* eslint-disable prettier/prettier */
-import { Controller, Get, Post, Body, Param, Delete, BadRequestException, Put, NotFoundException } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Delete,
+  BadRequestException,
+  Put,
+  NotFoundException,
+  UseGuards,
+} from '@nestjs/common';
 import { ProdutosService } from './produtos.service';
 import { CreateProdutoDto } from './dto/create-produto.dto';
 import { UpdateProdutoDto } from './dto/update-produto.dto';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('produtos')
+@UseGuards(AuthGuard('jwt'))
 export class ProdutosController {
   constructor(private readonly produtosService: ProdutosService) {}
 
@@ -36,7 +49,10 @@ export class ProdutosController {
   }
 
   @Put(':id')
-  async update(@Param('id') id: string, @Body() updateProdutoDto: UpdateProdutoDto) {
+  async update(
+    @Param('id') id: string,
+    @Body() updateProdutoDto: UpdateProdutoDto,
+  ) {
     try {
       return await this.produtosService.update(+id, updateProdutoDto);
     } catch (e) {
