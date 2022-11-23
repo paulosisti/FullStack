@@ -6,4 +6,5 @@ export class Produto implements Prisma.ProductsUncheckedCreateInput {
   name: string;
   price: number;
   model: string;
+  categoriesId: number;
 }

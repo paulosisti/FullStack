@@ -18,19 +18,26 @@ export class ProdutosService {
 
   async findAll() {
     const produtos = await this.prisma.products.findMany({
-      orderBy: { id: 'asc'}
+      orderBy: { id: 'asc' },
     });
     return produtos;
   }
 
   async findOne(id: number) {
     const produto = await this.prisma.products.findUnique({
-      where: { id }
+      where: { id },
     });
+    if (!produto) {
+      throw Error(`Ops... ID ${id} not found`);
+    }
     return produto;
   }
 
   async update(id: number, updateProdutoDto: UpdateProdutoDto) {
+    const product = await this.findOne(id);
+    if (!product) {
+      throw Error(`Ops... ID ${id} not found`);
+    }
     const updatedProduto = await this.prisma.products.update({
       where: { id },
       data: updateProdutoDto,
@@ -39,6 +46,10 @@ export class ProdutosService {
   }
 
   async remove(id: number) {
+    const product = await this.findOne(id);
+    if (!product) {
+      throw Error(`Ops... ID ${id} not found`);
+    }
     const deletedProduto = await this.prisma.products.delete({
       where: { id },
     });

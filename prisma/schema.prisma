@@ -11,10 +11,12 @@ datasource db {
 }
 
 model Products {
-  id    Int    @id @default(autoincrement())
-  name  String @unique
-  price Int
-  model String
+  id           Int         @id @default(autoincrement())
+  name         String      @unique
+  price        Int
+  model        String
+  Categories   Categories? @relation(fields: [categoriesId], references: [id])
+  categoriesId Int?
 }
 
 model Users {
@@ -22,4 +24,10 @@ model Users {
   name     String @unique
   email    String @unique
   password String
+}
+
+model Categories {
+  id       Int        @id @default(autoincrement())
+  name     String     @unique
+  products Products[]
 }

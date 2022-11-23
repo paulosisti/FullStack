@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import {
   Controller,
   Get,
@@ -7,24 +6,24 @@ import {
   Param,
   Delete,
   BadRequestException,
-  Put,
   NotFoundException,
+  Put,
   UseGuards,
 } from '@nestjs/common';
-import { ProdutosService } from './produtos.service';
-import { CreateProdutoDto } from './dto/create-produto.dto';
-import { UpdateProdutoDto } from './dto/update-produto.dto';
 import { AuthGuard } from '@nestjs/passport';
+import { CategoriesService } from './categories.service';
+import { CreateCategoryDto } from './dto/create-category.dto';
+import { UpdateCategoryDto } from './dto/update-category.dto';
 
-@Controller('produtos')
+@Controller('categorias')
 @UseGuards(AuthGuard('jwt'))
-export class ProdutosController {
-  constructor(private readonly produtosService: ProdutosService) {}
+export class CategoriesController {
+  constructor(private readonly categoriesService: CategoriesService) {}
 
   @Post()
-  async create(@Body() createProdutoDto: CreateProdutoDto) {
+  async create(@Body() createCategoryDto: CreateCategoryDto) {
     try {
-      return await this.produtosService.create(createProdutoDto);
+      return await this.categoriesService.create(createCategoryDto);
     } catch (e) {
       throw new BadRequestException(e.message);
     }
@@ -33,7 +32,7 @@ export class ProdutosController {
   @Get()
   async findAll() {
     try {
-      return await this.produtosService.findAll();
+      return await this.categoriesService.findAll();
     } catch (e) {
       throw new BadRequestException(e.message);
     }
@@ -42,7 +41,7 @@ export class ProdutosController {
   @Get(':id')
   async findOne(@Param('id') id: number) {
     try {
-      return await this.produtosService.findOne(id);
+      return await this.categoriesService.findOne(id);
     } catch (e) {
       throw new BadRequestException(e.message);
     }
@@ -51,10 +50,10 @@ export class ProdutosController {
   @Put(':id')
   async update(
     @Param('id') id: number,
-    @Body() updateProdutoDto: UpdateProdutoDto,
+    @Body() updateCategoryDto: UpdateCategoryDto,
   ) {
     try {
-      return await this.produtosService.update(id, updateProdutoDto);
+      return await this.categoriesService.update(id, updateCategoryDto);
     } catch (e) {
       throw new BadRequestException(e.message);
     }
@@ -63,7 +62,7 @@ export class ProdutosController {
   @Delete(':id')
   async remove(@Param('id') id: number) {
     try {
-      return await this.produtosService.remove(id);
+      return await this.categoriesService.remove(id);
     } catch (e) {
       throw new NotFoundException(e.message);
     }

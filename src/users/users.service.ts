@@ -58,7 +58,10 @@ export class UsersService {
     const User = await this.findOne(name);
     const updatedUser = await this.prisma.users.update({
       where: { name },
-      data: updateUserDto,
+      data: {
+        name: updateUserDto.name,
+        email: updateUserDto.email,
+      },
     });
     if (!User) {
       throw Error(`Ops... User ${name} not found`);
